@@ -1,5 +1,5 @@
-use serde::{Serialize, Deserialize};
 use crate::mmcs::MMCSTransferData;
+use serde::{Deserialize, Serialize};
 
 // raw messages used for communicating with APNs
 
@@ -56,7 +56,7 @@ struct IMTransferData {
     #[serde(rename = "IMFileTransferGUID")]
     transfer_guid: String,
     #[serde(rename = "IMFileTransferMessageGUID")]
-    message_guid: String
+    message_guid: String,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -73,7 +73,7 @@ struct RawIconChangeMessage {
     participants: Vec<String>,
     #[serde(rename = "n")]
     cv_name: Option<String>,
-    gv: String
+    gv: String,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -95,7 +95,7 @@ struct RawReactMessage {
     #[serde(rename = "n")]
     cv_name: Option<String>,
     msi: Data,
-    amk: String
+    amk: String,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -153,7 +153,6 @@ struct RawIMessage {
     inline1: Option<Data>,
 }
 
-
 #[derive(Serialize, Deserialize)]
 pub(super) struct BundledPayload {
     #[serde(rename = "tP")]
@@ -200,5 +199,5 @@ pub(super) struct RecvMsg {
     #[serde(rename = "U")]
     pub(super) msg_guid: Data,
     #[serde(rename = "e")]
-    pub(super) sent_timestamp: u64
+    pub(super) sent_timestamp: u64,
 }
