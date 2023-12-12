@@ -727,7 +727,6 @@ fn remove_prefix(participants: &[String]) -> Vec<String> {
 
 fn add_prefix(participants: &[String]) -> Vec<String> {
     participants
-        .clone()
         .iter()
         .map(|p| {
             if p.contains("@") {

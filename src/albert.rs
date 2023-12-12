@@ -153,9 +153,11 @@ pub async fn generate_push_cert(data: &plist::Value) -> Result<KeyPair, PushErro
     Ok(KeyPair {
         private: private_key.rsa().unwrap().private_key_to_der()?,
         cert: rustls_pemfile::certs(&mut Cursor::new(certificate.to_vec()))
+            .next()
             .unwrap()
             .into_iter()
             .nth(0)
-            .unwrap(),
+            .unwrap()
+            .to_vec(),
     })
 }

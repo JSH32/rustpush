@@ -12,7 +12,7 @@ use openssl::{
 };
 use plist::Value;
 use rand::Rng;
-use rustls::Certificate;
+use rustls::pki_types::{CertificateDer, ServerName};
 use serde::{Deserialize, Serialize};
 use std::net::ToSocketAddrs;
 use tokio::io::split;
@@ -383,15 +383,15 @@ impl APNSConnection {
         let x509 = X509::from_pem(include_bytes!(
             "../certs/root/profileidentity.ess.apple.com.cert"
         ))?;
-        let certificate = Certificate(x509.to_der()?);
+        let certificate = CertificateDer::from(x509.to_der()?);
 
         let mut root_store = rustls::RootCertStore::empty();
-        root_store.add(&certificate)?;
+        root_store.add(certificate)?;
 
         let mut config = rustls::ClientConfig::builder()
-            .with_safe_defaults()
             .with_root_certificates(root_store)
             .with_no_client_auth();
+
         config.alpn_protocols.push(b"apns-security-v3".to_vec());
 
         let connector = TlsConnector::from(Arc::new(config));
@@ -414,8 +414,12 @@ impl APNSConnection {
             .ok_or(io::Error::from(io::ErrorKind::NotFound))?;
         let stream = TcpStream::connect(&addr).await?;
 
-        let domain = rustls::ServerName::try_from(
-            bag.get("APNSCourierHostname").unwrap().as_string().unwrap(),
+        let domain = ServerName::try_from(
+            bag.get("APNSCourierHostname")
+                .unwrap()
+                .as_string()
+                .unwrap()
+                .to_owned(),
         )
         .map_err(|_| io::Error::new(io::ErrorKind::InvalidInput, "invalid dnsname"))?;
 

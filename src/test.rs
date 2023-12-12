@@ -1,12 +1,10 @@
-use std::{io::Seek, sync::Arc};
+use std::sync::Arc;
 
 use log::{error, info};
-use openssl::ex_data::Index;
 use plist::Value;
 use rustpush::{
     init_logger, register, APNSConnection, APNSState, APNSStateInit, ConversationData,
-    IDSAppleUser, IDSUser, IMClient, IconChangeMessage, IndexedMessagePart, MMCSFile, Message,
-    MessagePart, MessageParts, NormalMessage, PushError, RecievedMessage,
+    IDSAppleUser, IDSUser, IMClient, Message, NormalMessage, PushError, RecievedMessage,
 };
 use serde::{Deserialize, Serialize};
 use std::io::Write;
@@ -177,7 +175,7 @@ async fn main() {
     let mut msg = client
         .new_msg(
             ConversationData {
-                participants: vec!["mailto:rudnik7000@gmail.com".to_string()],
+                participants: vec!["mailto:sandboxalt@gmail.com".to_string()],
                 cv_name: None,
                 sender_guid: Some(Uuid::new_v4().to_string()),
             },
