@@ -41,6 +41,7 @@ pub struct APNSPayload {
     pub fields: Vec<(u8, Vec<u8>)>,
 }
 
+#[derive(Debug, Clone)]
 pub enum APNSStateInit {
     State(APNSState),
     New(plist::Value),
@@ -370,7 +371,7 @@ pub struct APNSConnection {
 }
 
 // serialize this to JSON to save state
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct APNSState {
     pub keypair: KeyPair,
     pub token: Option<Vec<u8>>,

@@ -52,7 +52,7 @@ pub fn get_nested_value<'s>(val: &'s Value, path: &[&str]) -> Option<&'s Value> 
 }
 
 // both in der
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct KeyPair {
     pub cert: Vec<u8>,
     pub private: Vec<u8>,
